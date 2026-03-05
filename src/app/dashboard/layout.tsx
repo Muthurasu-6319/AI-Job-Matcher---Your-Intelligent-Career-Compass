@@ -43,64 +43,63 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     const navs = [
-        { name: "Live Jobs Feed", path: "/dashboard", icon: <Briefcase /> },
-        { name: "Applied Jobs", path: "/dashboard/applied", icon: <CheckCircle2 /> },
-        { name: "Selected/Interviews", path: "/dashboard/selected", icon: <Star className="text-yellow-400 fill-yellow-400/20" /> },
-        { name: "Rejected Jobs", path: "/dashboard/rejected", icon: <XCircle className="text-red-400" /> },
+        { name: "Feed", path: "/dashboard", icon: <Briefcase className="w-4 h-4" /> },
+        { name: "Applied", path: "/dashboard/applied", icon: <CheckCircle2 className="w-4 h-4" /> },
+        { name: "Selected", path: "/dashboard/selected", icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400/20" /> },
+        { name: "Rejected", path: "/dashboard/rejected", icon: <XCircle className="w-4 h-4 text-red-400" /> },
     ];
 
     return (
-        <div className="flex bg-background min-h-screen text-foreground font-sans">
-            {/* Sidebar */}
-            <aside className="w-72 border-r border-white/5 bg-black/40 glass hidden lg:flex flex-col z-50">
-                <div className="p-6 border-b border-white/5 flex items-center gap-3">
-                    <div className="p-2 bg-primary/20 rounded-xl"><Sparkles className="text-primary w-6 h-6" /></div>
-                    <div className="font-black text-xl tracking-tight">AI<span className="text-primary">JobBot</span></div>
-                </div>
-                <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
-                    {navs.map(nav => {
-                        const active = pathname === nav.path;
-                        return (
-                            <a key={nav.path} href={nav.path} className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl font-bold transition-all ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-white'}`}>
-                                {nav.icon}
-                                {nav.name}
-                            </a>
-                        )
-                    })}
-                </div>
-                <div className="p-6 border-t border-white/5">
-                    <button onClick={handleLogout} className="flex items-center gap-3 text-red-400 hover:text-red-300 font-bold transition">
-                        <LogOut className="w-5 h-5" /> Terminate Session
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                {/* Top Header */}
-                <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-background/50 backdrop-blur-md z-40 fixed lg:relative w-full lg:w-auto">
-                    <h2 className="text-xl font-bold hidden md:block capitalize tracking-tight">
-                        {pathname.split('/').pop() === 'dashboard' ? 'Agent Feed' : pathname.split('/').pop() || 'Dashboard'}
-                    </h2>
-                    <div className="flex items-center gap-4 ml-auto">
-                        <span className="text-sm font-semibold text-muted-foreground mr-2">Agent: {userData?.name?.split(' ')[0]}</span>
-                        <a href="/dashboard/profile" className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 border border-primary/40 text-primary font-bold hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/10">
-                            <User className="w-5 h-5" />
-                        </a>
+        <div className="flex flex-col bg-background min-h-screen text-foreground font-sans">
+            {/* Top Header with Navigation */}
+            <header className="h-16 md:h-20 border-b border-white/5 flex items-center justify-between px-4 md:px-8 bg-black/40 backdrop-blur-md z-40 sticky top-0 w-full shadow-lg glass">
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/20 rounded-xl"><Sparkles className="text-primary w-5 h-5" /></div>
+                        <div className="font-black text-xl tracking-tight hidden sm:block">AI<span className="text-primary">JobBot</span></div>
                     </div>
-                </header>
+                    {/* Header Navs */}
+                    <nav className="hidden md:flex items-center gap-2 lg:gap-4 ml-4">
+                        {navs.map(nav => {
+                            const active = pathname === nav.path;
+                            return (
+                                <a key={nav.path} href={nav.path} className={`flex items-center gap-2 px-3 lg:px-4 py-2 rounded-xl font-bold transition-all text-sm ${active ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-white'}`}>
+                                    {nav.icon}
+                                    {nav.name}
+                                </a>
+                            )
+                        })}
+                    </nav>
+                </div>
 
-                {/* Scrollable Children */}
-                <main className="flex-1 overflow-y-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background p-6 md:p-12 pb-32">
-                    {React.Children.map(children, child => {
-                        if (React.isValidElement(child)) {
-                            // Pass userData down implicitly or let them fetch. Best is Context, but we can also use custom hooks.
-                            // For simplicity, we'll let pages fetch user or rely on auth state.
-                        }
-                        return child;
-                    })}
-                </main>
+                <div className="flex items-center gap-4 ml-auto">
+                    <button onClick={handleLogout} className="hidden md:flex items-center gap-2 text-red-400 hover:bg-red-500/10 px-3 py-2 rounded-xl font-bold transition text-sm">
+                        <LogOut className="w-4 h-4" /> Exit
+                    </button>
+                    <span className="text-sm font-semibold text-muted-foreground hidden lg:block">Agent: {userData?.name?.split(' ')[0]}</span>
+                    <a href="/dashboard/profile" className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/20 border border-primary/40 text-primary font-bold hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/10">
+                        <User className="w-5 h-5" />
+                    </a>
+                </div>
+            </header>
+
+            {/* Mobile Nav Header Extension if needed, or simply keep it simple for now */}
+            <div className="md:hidden flex overflow-x-auto p-2 border-b border-white/5 bg-black/20 gap-2 scrollbar-none">
+                 {navs.map(nav => {
+                    const active = pathname === nav.path;
+                    return (
+                        <a key={nav.path} href={nav.path} className={`flex whitespace-nowrap items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all text-sm ${active ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-white/5 hover:text-white'}`}>
+                            {nav.icon}
+                            {nav.name}
+                        </a>
+                    )
+                })}
             </div>
+
+            {/* Scrollable Children */}
+            <main className="flex-1 overflow-y-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background p-4 md:p-8">
+                {children}
+            </main>
         </div>
     );
 }

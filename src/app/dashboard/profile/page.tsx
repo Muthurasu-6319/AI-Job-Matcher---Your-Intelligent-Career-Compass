@@ -46,12 +46,12 @@ export default function ProfilePage() {
         const aiData = data.structured;
         const updatedProfile = {
             ...profile,
-            skills: aiData.skills || profile.skills || [],
-            experience: aiData.experience || profile.experience || [],
-            education: aiData.education || profile.education || [],
-            projects: aiData.projects || profile.projects || [],
+            skills: aiData.skills?.length ? aiData.skills : (profile.skills || []),
+            experience: aiData.experience?.length ? aiData.experience : (profile.experience || []),
+            education: aiData.education?.length ? aiData.education : (profile.education || []),
+            projects: aiData.projects?.length ? aiData.projects : (profile.projects || []),
             role: profile.role || aiData.summary?.substring(0, 50) || '',
-            summary: profile.summary || aiData.summary || '',
+            summary: aiData.summary || profile.summary || '',
             resumeFileName: fileName
         };
 
@@ -131,10 +131,10 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* About / Summary Card */}
+                    {/* Summary Card */}
                     <div className="glass p-6 md:p-8 rounded-3xl border border-white/5 shadow-xl relative group text-left">
                         <Pencil className="absolute top-6 right-6 w-5 h-5 text-muted-foreground opacity-50 group-hover:opacity-100 transition" />
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><User className="w-6 h-6 text-primary" /> About</h3>
+                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><User className="w-6 h-6 text-primary" /> Summary</h3>
                         <textarea
                             name="summary"
                             value={profile.summary || ''}
@@ -194,6 +194,25 @@ export default function ProfilePage() {
                             </div>
                         ) : (
                             <div className="text-center py-6 text-muted-foreground font-bold bg-white/5 rounded-2xl border border-dashed border-white/10">No education data.</div>
+                        )}
+                    </div>
+
+                    {/* Projects Card */}
+                    <div className="glass p-6 md:p-8 rounded-3xl border border-white/5 shadow-xl">
+                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2"><Code className="w-6 h-6 text-yellow-400" /> Projects</h3>
+                        {profile.projects && profile.projects.length > 0 ? (
+                            <div className="space-y-6">
+                                {profile.projects.map((proj: any, idx: number) => (
+                                    <div key={idx} className="border-b border-white/5 pb-6 last:border-0 last:pb-0">
+                                        <h4 className="text-lg font-bold text-white mb-2">{proj.name || 'Untitled Project'}</h4>
+                                        <p className="text-sm font-medium text-muted-foreground leading-relaxed">
+                                            {proj.description || 'No description provided.'}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-6 text-muted-foreground font-bold bg-white/5 rounded-2xl border border-dashed border-white/10">Upload your resume to add projects.</div>
                         )}
                     </div>
 

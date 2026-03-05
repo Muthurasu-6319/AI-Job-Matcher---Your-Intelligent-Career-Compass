@@ -40,6 +40,19 @@ export default function SignupPage() {
                 preferences: null,
                 createdAt: new Date().toISOString()
             });
+            // Send Welcome Email
+            try {
+                await fetch('/api/welcome-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: form.email, name: form.name }),
+                });
+            } catch (emailError) {
+                console.error("Failed to send welcome email:", emailError);
+            }
+
             router.push('/login');
         } catch (err: any) {
             setError(err.message);

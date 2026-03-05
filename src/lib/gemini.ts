@@ -8,7 +8,7 @@ export async function extractResumeData(text: string) {
     return null;
   }
 
-  const modelName = "gemini-pro"; // Using gemini-pro for stability, you can change to gemini-1.5-flash
+  const modelName = "gemini-flash-latest"; // Using gemini-flash-latest for stability
   console.log(`Extracting data using model: ${modelName} (${text.length} chars)`);
 
   const model = genAI.getGenerativeModel({ model: modelName });
@@ -64,7 +64,7 @@ export async function extractResumeData(text: string) {
 }
 
 export async function matchJobWithResume(job: any, resumeData: any, preferences: any) {
-  const modelName = "gemini-pro";
+  const modelName = "gemini-flash-latest";
   const model = genAI.getGenerativeModel({ model: modelName });
 
   const prompt = `
