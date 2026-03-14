@@ -101,29 +101,31 @@ export default function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Brain className="w-8 h-8 text-blue-400" />,
-              title: "AI Skill Parsing",
-              desc: "We analyze your resume using deep learning to understand your true value, looking beyond just keywords.",
-              color: "from-blue-500/20 to-transparent",
-              border: "border-blue-500/20"
-            },
-            {
-              icon: <Search className="w-8 h-8 text-primary" />,
-              title: "Deep Web Scanning",
-              desc: "Our engine scans top platforms like LinkedIn daily to hunt down roles that match your exact parameters.",
-              color: "from-primary/20 to-transparent",
-              border: "border-primary/20"
-            },
-            {
-              icon: <ShieldCheck className="w-8 h-8 text-green-400" />,
-              title: "Safe Manual Apply",
-              desc: "100% account safety. We find the perfect matches; you click apply. No bot blocks, no CAPTCHAs.",
-              color: "from-green-500/20 to-transparent",
-              border: "border-green-500/20"
-            }
-          ].map((feature, i) => (
+          {(
+            [
+              {
+                icon: <Brain className="w-8 h-8 text-blue-400" />,
+                title: "AI Skill Parsing",
+                desc: "We analyze your resume using deep learning to understand your true value, looking beyond just keywords.",
+                color: "from-blue-500/20 to-transparent",
+                border: "border-blue-500/20"
+              },
+              {
+                icon: <Search className="w-8 h-8 text-primary" />,
+                title: "Deep Web Scanning",
+                desc: "Our engine scans top platforms like LinkedIn daily to hunt down roles that match your exact parameters.",
+                color: "from-primary/20 to-transparent",
+                border: "border-primary/20"
+              },
+              {
+                icon: <ShieldCheck className="w-8 h-8 text-green-400" />,
+                title: "Safe Manual Apply",
+                desc: "100% account safety. We find the perfect matches; you click apply. No bot blocks, no CAPTCHAs.",
+                color: "from-green-500/20 to-transparent",
+                border: "border-green-500/20"
+              }
+            ] || [] // Added `|| []` to ensure the value is always an array before calling map.
+          ).map((feature, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
